@@ -23,6 +23,16 @@ public class CarController {
         return ResponseEntity.ok(carService.findAll());
     }
 
+    @GetMapping("/find")
+    public ResponseEntity<List<Car>> findByName(@RequestParam String name) {
+        return ResponseEntity.ok(carService.findByName(name));
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Car> findById(@PathVariable int id) {
+        return ResponseEntity.ok(carService.findById(id));
+    }
+
     @PostMapping
     public ResponseEntity<Car> save(@RequestBody @Valid CarPostDTO dto) {
         return new ResponseEntity<>(carService.save(dto), HttpStatus.CREATED);

@@ -50,6 +50,23 @@ class CarRepositoryTest {
     }
 
     @Test
+    void findByName_ReturnsEmptyList_WhenCarIsNotFound() {
+        List<Car> carsByName = carRepository.findByName("");
+
+        Assertions.assertThat(carsByName).isEmpty();
+    }
+
+    @Test
+    void findByName_ReturnsListOfCars_WhenSuccessful() {
+        Car saved = carRepository.save(CarCreator.createCarToBeSaved());
+
+        List<Car> carsByName = carRepository.findByName(saved.getName());
+
+        Assertions.assertThat(carsByName).isNotEmpty();
+        Assertions.assertThat(carsByName).contains(saved);
+    }
+
+    @Test
     void findAll_ReturnsEmptyList_WhenCarIsNotFound() {
         List<Car> all = carRepository.findAll();
 

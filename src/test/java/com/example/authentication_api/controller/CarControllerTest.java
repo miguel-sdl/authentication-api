@@ -28,6 +28,8 @@ class CarControllerTest {
     @BeforeEach
     void setUp() {
         BDDMockito.when(carService.findAll()).thenReturn(List.of(CarCreator.createValidCar()));
+        BDDMockito.when(carService.findByName(ArgumentMatchers.anyString())).thenReturn(List.of(CarCreator.createValidCar()));
+        BDDMockito.when(carService.findById(ArgumentMatchers.anyInt())).thenReturn(CarCreator.createValidCar());
         BDDMockito.when(carService.save(ArgumentMatchers.any())).thenReturn(CarCreator.createValidCar());
         BDDMockito.doNothing().when(carService).update(CarCreator.createValidCarPutDTO());
         BDDMockito.doNothing().when(carService).delete(ArgumentMatchers.anyInt());
@@ -39,6 +41,22 @@ class CarControllerTest {
 
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         Assertions.assertThat(response.getBody()).isNotEmpty();
+    }
+
+    @Test
+    void findByName_Return200_WhenSuccessful() {
+        ResponseEntity<List<Car>> response = carController.findByName("test");
+
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
+        Assertions.assertThat(response.getBody()).isNotEmpty();
+    }
+
+    @Test
+    void findById_Return200_WhenSuccessful() {
+        ResponseEntity<Car> response = carController.findById(1);
+
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
+        Assertions.assertThat(response.getBody()).isNotNull();
     }
 
     @Test
