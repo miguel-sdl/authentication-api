@@ -1,5 +1,6 @@
 package com.example.authentication_api.service;
 
+import com.example.authentication_api.exception.BadRequestException;
 import com.example.authentication_api.model.dto.CarPostDTO;
 import com.example.authentication_api.model.dto.CarPutDTO;
 import com.example.authentication_api.model.entity.Car;
@@ -22,7 +23,7 @@ public class CarService {
     }
 
     public Car findById(int id) {
-        return carRepository.findById(id).orElseThrow(() -> new RuntimeException("Carro nao encontrado"));
+        return carRepository.findById(id).orElseThrow(() -> new BadRequestException("Carro nao encontrado"));
     }
 
     public List<Car> findByName(String name) {

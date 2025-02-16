@@ -1,5 +1,6 @@
 package com.example.authentication_api.service;
 
+import com.example.authentication_api.exception.BadRequestException;
 import com.example.authentication_api.model.entity.Car;
 import com.example.authentication_api.repository.CarRepository;
 import com.example.authentication_api.util.CarCreator;
@@ -37,10 +38,10 @@ class CarServiceTest {
     }
 
     @Test
-    void findById_ThrowsRuntimeException_WhenCarIsNotFound() {
+    void findById_ThrowsBadRequestException_WhenCarIsNotFound() {
         BDDMockito.when(carRepository.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.empty());
 
-        Assertions.assertThatThrownBy(() -> carService.findById(1)).isInstanceOf(RuntimeException.class);
+        Assertions.assertThatThrownBy(() -> carService.findById(1)).isInstanceOf(BadRequestException.class);
     }
 
     @Test
