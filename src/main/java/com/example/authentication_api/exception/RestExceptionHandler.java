@@ -13,14 +13,27 @@ import java.time.LocalDateTime;
 public class RestExceptionHandler {
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ExceptionResponse> handlerBadRequestException(BadRequestException e) {
-        ExceptionResponse exceptionResponse = (ExceptionResponse.builder()
+        ExceptionResponse exceptionResponse = ExceptionResponse.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .title("Bad Request")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
-                .build());
+                .build();
 
         log.warn("BadRequestException foi lancada");
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ExceptionResponse> handlerUserAlreadyExistsException(UserAlreadyExistsException e) {
+        ExceptionResponse exceptionResponse = ExceptionResponse.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .title("Usuario ja existe")
+                .message(e.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        log.warn("UserAlreadyExistsException foi lancada");
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 }
