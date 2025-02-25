@@ -7,6 +7,7 @@ import com.example.authentication_api.model.mapper.UserMapper;
 import com.example.authentication_api.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.Objects;
 public class AuthService {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     public void register(RegisterDTO dto) {
         User user = UserMapper.INSTANCE.toUser(dto);
@@ -25,6 +28,7 @@ public class AuthService {
             throw new UserAlreadyExistsException("Nao e possivel registrar um usuario ja existente");
         }
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         log.info("salvando usuario no db");
         userRepository.save(user);
     }

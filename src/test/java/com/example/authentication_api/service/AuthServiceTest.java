@@ -11,6 +11,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
@@ -19,6 +20,8 @@ class AuthServiceTest {
     AuthService authService;
     @Mock
     UserRepository userRepository;
+    @Mock
+    BCryptPasswordEncoder passwordEncoder;
 
     @BeforeEach
     void setUp() {
