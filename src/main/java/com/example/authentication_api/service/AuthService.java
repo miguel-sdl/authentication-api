@@ -5,6 +5,7 @@ import com.example.authentication_api.model.dto.RegisterDTO;
 import com.example.authentication_api.model.entity.User;
 import com.example.authentication_api.model.mapper.UserMapper;
 import com.example.authentication_api.repository.UserRepository;
+import com.example.authentication_api.security.TokenService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +21,8 @@ public class AuthService {
     UserRepository userRepository;
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    TokenService tokenService;
 
     public void register(RegisterDTO dto) {
         User user = UserMapper.INSTANCE.toUser(dto);
