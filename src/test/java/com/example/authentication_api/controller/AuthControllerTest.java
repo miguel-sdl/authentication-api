@@ -1,6 +1,8 @@
 package com.example.authentication_api.controller;
 
+import com.example.authentication_api.model.dto.LoginResponseDTO;
 import com.example.authentication_api.service.AuthService;
+import com.example.authentication_api.util.TokenCreator;
 import com.example.authentication_api.util.UserCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,7 @@ class AuthControllerTest {
 
     void setUp() {
         BDDMockito.doNothing().when(authService).register(ArgumentMatchers.any());
+        BDDMockito.when(authService.login(ArgumentMatchers.any())).thenReturn(TokenCreator.createValidToken());
     }
 
     @Test
@@ -30,6 +33,16 @@ class AuthControllerTest {
 
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(201));
+
+    }
+
+    @Test
+    void login_Return200_WhenSuccessful() {
+        ResponseEntity<LoginResponseDTO> response = authController.login(UserCreator.createValidLoginDTO());
+
+        Assertions.assertThat(response).isNotNull();
+        Assertions.assertThat(response.getBody()).isNotNull();
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
 
     }
 }

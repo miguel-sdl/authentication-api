@@ -1,5 +1,7 @@
 package com.example.authentication_api.controller;
 
+import com.example.authentication_api.model.dto.LoginDTO;
+import com.example.authentication_api.model.dto.LoginResponseDTO;
 import com.example.authentication_api.model.dto.RegisterDTO;
 import com.example.authentication_api.model.entity.User;
 import com.example.authentication_api.service.AuthService;
@@ -22,6 +24,12 @@ public class AuthController {
         authService.register(dto);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginDTO dto) {
+        String token = authService.login(dto);
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @GetMapping

@@ -1,5 +1,6 @@
 package com.example.authentication_api.util;
 
+import com.example.authentication_api.model.dto.LoginDTO;
 import com.example.authentication_api.model.dto.RegisterDTO;
 import com.example.authentication_api.model.entity.User;
 import com.example.authentication_api.model.entity.UserRole;
@@ -26,5 +27,9 @@ public class UserCreator {
 
     public static RegisterDTO createValidRegisterDTO() {
         return new RegisterDTO("test@gmail.com", "password", List.of(UserRole.ROLE_USER));
+    }
+
+    public static LoginDTO createValidLoginDTO() {
+        return new LoginDTO("test@gmail.com", "password");
     }
 }
