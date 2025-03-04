@@ -1,5 +1,6 @@
 package com.example.authentication_api.exception;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class RestExceptionHandler {
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ExceptionResponse> handlerBadRequestException(BadRequestException e) {
+    public ResponseEntity<ExceptionResponse> handleBadRequestException(BadRequestException e) {
         ExceptionResponse exceptionResponse = ExceptionResponse.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .title("Bad Request")
@@ -25,7 +26,7 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ExceptionResponse> handlerUserAlreadyExistsException(UserAlreadyExistsException e) {
+    public ResponseEntity<ExceptionResponse> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
         ExceptionResponse exceptionResponse = ExceptionResponse.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .title("Usuario ja existe")
@@ -35,5 +36,31 @@ public class RestExceptionHandler {
 
         log.warn("UserAlreadyExistsException foi lancada");
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(JWTVerificationException.class)
+    public ResponseEntity<ExceptionResponse> handleJWTVerificationException(JWTVerificationException e) {
+        ExceptionResponse exceptionResponse = ExceptionResponse.builder()
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .title("Token JWT invalido")
+                .message(e.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        log.warn("JWTVerificationException foi lancada");
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(MissingTokenException.class)
+    public ResponseEntity<ExceptionResponse> handleMissingTokenException(MissingTokenException e) {
+        ExceptionResponse exceptionResponse = ExceptionResponse.builder()
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .title("Token JWT nao encontrado no header Authorization")
+                .message(e.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        log.warn("MissingTokenException foi lancada");
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.authentication_api.security;
 
+import com.example.authentication_api.exception.SecurityFilterExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     @Autowired
     SecurityFilter securityFilter;
+    @Autowired
+    SecurityFilterExceptionHandler securityFilterExceptionHandler;
+
+    public static final String[] ENDPOINTS_AUTHENTICATION_NOT_REQUIRED = {"/auth/register", "/auth/login", "/swagger-ui/index.html"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -27,12 +32,13 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
-                        authorizationManagerRequestMatcherRegistry.requestMatchers("/auth/**").permitAll()
+                        authorizationManagerRequestMatcherRegistry.requestMatchers(ENDPOINTS_AUTHENTICATION_NOT_REQUIRED).permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/car").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/car/**").hasRole("ADMIN")
                                 .requestMatchers("/car").authenticated()
                                 .anyRequest().permitAll())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(securityFilterExceptionHandler, SecurityFilter.class)
                 .build();
     }
 
