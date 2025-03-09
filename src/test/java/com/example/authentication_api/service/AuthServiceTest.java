@@ -34,7 +34,7 @@ class AuthServiceTest {
     @BeforeEach
     void setUp() {
         BDDMockito.when(userRepository.findByEmail(ArgumentMatchers.anyString())).thenReturn(UserCreator.createValidUser());
-        BDDMockito.when(tokenService.generateToken(ArgumentMatchers.any())).thenReturn(TokenCreator.createValidToken());
+        BDDMockito.when(tokenService.generateToken(ArgumentMatchers.any())).thenReturn(TokenCreator.createTokenUserRole());
         BDDMockito.when(authenticationManager.authenticate(ArgumentMatchers.any())).thenReturn(new UsernamePasswordAuthenticationToken(UserCreator.createValidUser(), ""));
     }
 

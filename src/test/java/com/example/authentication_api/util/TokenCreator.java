@@ -10,11 +10,15 @@ public class TokenCreator {
     private static final TokenService tokenService;
 
     static {
-        tokenService = new TokenService("test");
+        tokenService = new TokenService("secret");
     }
 
-    public static String createValidToken() {
+    public static String createTokenUserRole() {
         return tokenService.generateToken(UserCreator.createValidUser());
+    }
+
+    public static String createTokenAdminRole() {
+        return tokenService.generateToken(UserCreator.createValidAdminUser());
     }
 
     public static String createExpiredToken() {

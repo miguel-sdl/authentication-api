@@ -24,7 +24,7 @@ class AuthControllerTest {
 
     void setUp() {
         BDDMockito.doNothing().when(authService).register(ArgumentMatchers.any());
-        BDDMockito.when(authService.login(ArgumentMatchers.any())).thenReturn(TokenCreator.createValidToken());
+        BDDMockito.when(authService.login(ArgumentMatchers.any())).thenReturn(TokenCreator.createTokenUserRole());
     }
 
     @Test

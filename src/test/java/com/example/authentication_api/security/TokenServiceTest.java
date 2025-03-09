@@ -42,7 +42,6 @@ class TokenServiceTest {
     void validateToken_ThrowsJWTVerificationException_WhenTokenIsNotValid() {
         String token = tokenService.generateToken(UserCreator.createValidUser());
 
-        System.out.println(token);
         String invalidToken = token.replace('e', 'a');
 
         Assertions.assertThatThrownBy(() -> tokenService.validateToken(invalidToken))
