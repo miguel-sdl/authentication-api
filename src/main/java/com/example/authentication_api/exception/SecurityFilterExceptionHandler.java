@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -24,11 +25,13 @@ public class SecurityFilterExceptionHandler extends OncePerRequestFilter {
             String error = handler.handleJWTVerificationException(e).getBody().toString();
 
             response.setStatus(401);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.getWriter().write(error);
         } catch (MissingTokenException e) {
             String error = handler.handleMissingTokenException(e).getBody().toString();
 
             response.setStatus(401);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.getWriter().write(error);
         }
     }

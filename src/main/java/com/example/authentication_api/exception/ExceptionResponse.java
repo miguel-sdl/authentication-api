@@ -15,11 +15,11 @@ public class ExceptionResponse {
 
     @Override
     public String toString() {
-        return "{\n" +
+        return "{" +
                 " \"status\": " + status +
                 ",\n \"title\": \"" + title +
                 "\",\n \"message\": \"" + message +
                 "\",\n \"timestamp\": \"" + timestamp +
-                "\"\n}";
+                "\"}";
     }
 }
